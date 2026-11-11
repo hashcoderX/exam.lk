@@ -1,4 +1,4 @@
-import { GuestAuthControls } from "@/app/components/guest-auth-controls";
+import { HomeBaseTemplate } from "@/app/components/home-base-template";
 import Link from "next/link";
 
 type Category = {
@@ -118,36 +118,7 @@ export default async function GuestDashboardPage() {
   const examListings = await fetchExamListings();
 
   return (
-    <main className="min-h-screen bg-[#efefef] text-[#666]">
-      <header className="border-b border-[#ddd] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
-        <div className="h-[3px] w-full bg-[#1f1f1f]" />
-        <div className="mx-auto flex max-w-[1020px] items-center justify-between px-4 py-2 text-[11px] text-[#7b7b7b]">
-          <div className="flex items-center gap-5">
-            <h1 className="flex items-center gap-1 text-[30px] font-light leading-none tracking-[0.12em] text-[#c2c9cd]">
-              <span className="text-[20px]">🏍</span>
-              EXAM.LK
-            </h1>
-            <a href="#" className="font-semibold text-[#7f9caf] hover:text-[#4f6f84]">
-              All Exams
-            </a>
-            <a href="#" className="hidden text-[#8f8f8f] md:block">
-              සිංහල | தமிழ்
-            </a>
-          </div>
-          <div className="flex items-center gap-4 text-[#8b8b8b]">
-            <a href="#" className="hidden items-center gap-1 sm:inline-flex">
-              ♡ <span>My List</span>
-            </a>
-            <a href="#" className="hidden items-center gap-1 sm:inline-flex">
-              🛒 <span>My Order</span>
-            </a>
-            <GuestAuthControls />
-            <Link href="/guest/register-exam" className="rounded-sm border border-[#d6a948] bg-[#f0be52] px-3 py-1 font-semibold text-[#5b4b2b]">
-              Register for exam
-            </Link>
-          </div>
-        </div>
-      </header>
+    <HomeBaseTemplate>
 
       <section className="mx-auto max-w-[1020px] px-4 pt-4">
         <article aria-label="Top advertisement" className="grid overflow-hidden border border-[#d8d8d8] bg-white sm:grid-cols-[180px_1fr]">
@@ -296,43 +267,6 @@ export default async function GuestDashboardPage() {
         </div>
       </section>
 
-      <footer className="border-t border-[#ddd] bg-[#f3f3f3]">
-        <div className="mx-auto grid max-w-[1020px] gap-6 px-4 py-10 text-[12px] text-[#97a4ad] sm:grid-cols-[1fr_1fr_1fr_220px]">
-          <div>
-            <h2 className="mb-3 text-[21px] font-light text-[#a5b0b7]">Services</h2>
-            <ul className="space-y-1">
-              <li><a href="#" className="hover:text-[#6d7a83]">How to sell fast</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">Stay safe with exam.lk</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">FAQ</a></li>
-            </ul>
-          </div>
-          <div>
-            <h2 className="mb-3 text-[21px] font-light text-[#a5b0b7]">Informations</h2>
-            <ul className="space-y-1">
-              <li><a href="#" className="hover:text-[#6d7a83]">About us</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">Contact us</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">Privacy policy</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">Site map</a></li>
-            </ul>
-          </div>
-          <div>
-            <h2 className="mb-3 text-[21px] font-light text-[#a5b0b7]">Join with us</h2>
-            <ul className="space-y-1">
-              <li><a href="#" className="hover:text-[#6d7a83]">google.com/exam.lk</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">facebook.com/www.exam.lk</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">twitter.com/exam</a></li>
-              <li><a href="#" className="hover:text-[#6d7a83]">instagram.com/exam.lk</a></li>
-            </ul>
-          </div>
-          <div className="flex items-end justify-end text-right">
-            <p className="text-[48px] font-light leading-none tracking-[0.08em] text-[#c3ccd1]">🏍 EXAM.LK</p>
-          </div>
-        </div>
-        <div className="border-t border-[#e1e1e1] py-2 text-center text-[11px] text-[#8ba8b9]">
-          © 2010-2026 exam.lk. All rights reserved.
-        </div>
-      </footer>
-    </main>
+    </HomeBaseTemplate>
   );
 }

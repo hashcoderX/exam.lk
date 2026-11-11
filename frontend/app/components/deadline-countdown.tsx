@@ -69,11 +69,11 @@ export function DeadlineCountdown({ deadline }: { deadline: string }) {
   const countdownText = `${pad(remaining.days)} .${pad(remaining.hours)} .${pad(remaining.minutes)}.${pad(remaining.seconds)} SEC`;
 
   if (remaining.done) {
-    return <p className="mt-2 text-[14px] font-semibold tracking-wide text-[#da4343]">00 .00 .00.00 SEC</p>;
+    return <p className="mt-2 text-center text-[18px] font-semibold tracking-wide text-[#da4343]">00 .00 .00.00 SEC</p>;
   }
 
   return (
-    <p className="mt-2 text-[14px] font-semibold tracking-wide text-[#da4343]">
+    <p className="mt-2 text-center text-[18px] font-semibold tracking-wide text-[#da4343]">
       <CountdownUnit value={pad(remaining.days)} label="." tick={tick} />
       <CountdownUnit value={pad(remaining.hours)} label="." tick={tick} />
       <CountdownUnit value={pad(remaining.minutes)} label="." tick={tick} />

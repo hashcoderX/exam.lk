@@ -26,6 +26,8 @@ class AdvertisementController extends Controller
             'exam_listings_sidebar',
             'exam_details_top',
             'exam_details_sidebar',
+            'exam_details_heading_banner',
+            'exam_details_google_ads',
             'guest_dashboard_top',
             'guest_dashboard_sidebar',
             'guest_exam_listings_top',

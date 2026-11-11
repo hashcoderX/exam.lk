@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category as CategoryModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -18,9 +19,11 @@ class CategoryController extends Controller
     {
         $categories = CategoryModel::query()
             ->latest()
-            ->get(['id', 'name', 'slug', 'status', 'created_at']);
+            ->get();
 
-        return response()->json($categories);
+        return response()->json(
+            $categories->map(fn ($category) => $this->toResponseItem($category))->values()
+        );
     }
 
     /**
@@ -32,19 +35,24 @@ class CategoryController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('categories', 'slug')],
             'status' => ['required', Rule::in(['active', 'inactive'])],
+            'icon' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg', 'max:5120'],
         ]);
 
         $slug = $validated['slug'] ?? Str::slug($validated['name']);
+        $iconPath = $request->hasFile('icon')
+            ? $request->file('icon')->store('categories/icons', 'public')
+            : null;
 
         $category = CategoryModel::create([
             'name' => $validated['name'],
             'slug' => $slug,
             'status' => $validated['status'],
+            'icon_path' => $iconPath,
         ]);
 
         return response()->json([
             'message' => 'Category created successfully.',
-            'data' => $category->only(['id', 'name', 'slug', 'status', 'created_at']),
+            'data' => $this->toResponseItem($category),
         ], 201);
     }
 
@@ -53,10 +61,32 @@ class CategoryController extends Controller
      */
     public function destroy(CategoryModel $category): JsonResponse
     {
+        if ($category->icon_path && Storage::disk('public')->exists($category->icon_path)) {
+            Storage::disk('public')->delete($category->icon_path);
+        }
+
         $category->delete();
 
         return response()->json([
             'message' => 'Category deleted successfully.',
         ]);
+    }
+
+    /**
+     * Map category model to API response payload.
+     *
+     * @return array<string, mixed>
+     */
+    private function toResponseItem(CategoryModel $category): array
+    {
+        return [
+            'id' => $category->id,
+            'name' => $category->name,
+            'slug' => $category->slug,
+            'status' => $category->status,
+            'icon_path' => $category->icon_path,
+            'icon_url' => $category->icon_path ? asset(Storage::url($category->icon_path)) : null,
+            'created_at' => $category->created_at,
+        ];
     }
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 type NavItem = {
   label: string;
@@ -37,8 +38,6 @@ export default function Navbar({
   loginHref = "#",
   submitHref = "#",
 }: NavbarProps) {
-  const [brandRoot, brandSuffix = ""] = brandName.split(".");
-
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.35)] backdrop-blur">
       <nav
@@ -46,10 +45,14 @@ export default function Navbar({
         className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8"
       >
         <Link href={homeHref} className="flex items-center" aria-label={`${brandName} home`}>
-          <span className="text-2xl font-semibold tracking-tight text-slate-950">
-            {brandRoot}
-            {brandSuffix ? <span className="text-[#2563EB]">.{brandSuffix}</span> : null}
-          </span>
+          <Image
+            src="/EXAM-Main-Logo.png"
+            alt={brandName}
+            width={180}
+            height={40}
+            priority
+            className="h-auto w-[160px] sm:w-[180px]"
+          />
         </Link>
 
         <div className="hidden items-center gap-7 text-sm font-normal text-slate-600 lg:flex">

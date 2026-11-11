@@ -268,7 +268,7 @@ export function ExamListingsClient() {
     if (quillRef.current) {
       quillRef.current.setContents([]);
     }
-    setCategory("");
+    setCategory(categories[0]?.name ?? "");
     setDeadline("");
     setStatus("pending");
     setPosterFile(null);
@@ -366,8 +366,26 @@ export function ExamListingsClient() {
     const descriptionText = getPlainTextFromHtml(currentEditorHtml);
     const hasPosterSource = Boolean(posterFile || posterPreviewUrl);
 
-    if (!title.trim() || !descriptionText || !category.trim() || !deadline) {
-      setError("Title, description, category, deadline, and poster are required.");
+    const missingFields: string[] = [];
+
+    if (!title.trim()) {
+      missingFields.push("title");
+    }
+
+    if (!descriptionText) {
+      missingFields.push("description");
+    }
+
+    if (!category.trim()) {
+      missingFields.push("category");
+    }
+
+    if (!deadline) {
+      missingFields.push("deadline");
+    }
+
+    if (missingFields.length > 0) {
+      setError(`Please fill required field(s): ${missingFields.join(", ")}.`);
       return;
     }
 

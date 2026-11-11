@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,6 +25,30 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <Script id="cleanup-fdprocessedid" strategy="beforeInteractive">
+          {`
+            (function () {
+              function removeInjectedAttrs(root) {
+                if (!root || !root.querySelectorAll) return;
+                root.querySelectorAll('[fdprocessedid]').forEach(function (node) {
+                  node.removeAttribute('fdprocessedid');
+                });
+              }
+
+              removeInjectedAttrs(document);
+
+              var observer = new MutationObserver(function () {
+                removeInjectedAttrs(document);
+              });
+
+              observer.observe(document.documentElement, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+              });
+            })();
+          `}
+        </Script>
         {children}
       </body>
     </html>
